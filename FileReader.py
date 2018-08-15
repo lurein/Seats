@@ -1,22 +1,23 @@
+# This script read data from the Arduino and pushed it to our api server
 import serial
 import requests
 arduinoData = serial.Serial('/dev/cu.usbmodem1421', 9600)
-aduinoNew1 = {}
-aduinoNew1['status'] = ''
+arduinoNew1 = {}
+arduinoNew1['status'] = ''
 while True:
-    #print aduinoNew1
-    aduinoNew = {}
+    #print arduinoNew1
+    arduinoNew = {}
     arduinoInfo = arduinoData.readline()
     dataSet = arduinoInfo.split(';')
-    aduinoID = dataSet[0]
-    aduinoStatus = dataSet[1]
-    aduinoTable = '1'
-    aduinoPerson = ['Jessica', 'John', 'Leahy']
-    aduinoNew['members'] = aduinoPerson
-    aduinoNew['table'] = aduinoTable
-    aduinoNew['seatID'] = aduinoID
-    aduinoNew['status'] = aduinoStatus
-    if (aduinoNew['status'] != aduinoNew1['status']):
+    arduinoID = dataSet[0]
+    arduinoStatus = dataSet[1]
+    arduinoTable = '1'
+    arduinoPerson = ['Jessica', 'John', 'Leahy']
+    arduinoNew['members'] = arduinoPerson
+    arduinoNew['table'] = arduinoTable
+    arduinoNew['seatID'] = arduinoID
+    arduinoNew['status'] = arduinoStatus
+    if (arduinoNew['status'] != arduinoNew1['status']):
         r = requests.post(
-            'http://www.diningspots.co.nf/api/newListing.php', data=aduinoNew)
-        aduinoNew1 = aduinoNew
+            'http://www.diningspots.co.nf/api/newListing.php', data=arduinoNew)
+        arduinoNew1 = arduinoNew
